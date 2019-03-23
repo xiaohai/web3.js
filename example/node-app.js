@@ -5,33 +5,28 @@ var Web3 = require('../index.js');
 var sleep = require('sleep')
 var web3 = new Web3();
 
-web3.setProvider(new web3.providers.HttpProvider('http://192.168.1.126:8088'));
 
-// var coinbase = web3.eth.coinbase;
-// console.log(coinbase);
+web3.setProvider(new web3.providers.HttpProvider('http://thinkey.natapp1.cc'));
+const privateKey = new Buffer('4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
+
+web3.thk.defaultPrivateKey = privateKey
+web3.thk.defaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
+web3.thk.defaultChainId = "2"
+
 var cotractName = "SimpleStorage"
-var cotractName2 = "test"
-var contractText = "pragma solidity >= 0.4.0;contract " + cotractName + " {uint storedData; function set(uint x) public { storedData = x;} function get() public view returns (uint) { return storedData;}}"
-var contractText2 = "pragma solidity >= 0.4.0;contract " + cotractName2 + " {uint storedData; function set(uint x) public { storedData = x;} function get() public view returns (uint) { return storedData;}}"
-// var contractAddress = RunContract(cotractName, contractText)
-// var contractAddress2 = RunContract(cotractName2, contractText2)
-//
-// // var contractAddress = "0x77f60d58c7468706c7f7272d0f91410d869cbcd8"
-// // for(i=0; i<200; i++) {
-//     var getcontract = web3.thk.GetContract(contractAddress)
-//     var getcontract2 = web3.thk.GetContract(contractAddress2)
-    var myCon = web3.thk.contract(getcontract["<stdin>:" + cotractName]["info"]["abiDefinition"]).at(contractAddress);
-//     var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
-//     web3.thk.setCaller("0x0000000000000000000000000000000000000000")
-//     web3.thk.setVal("0")
-//     myCon.set(2)
-//     sleep.sleep(3)
-// console.log(myCon2.get())
-//     var res = myCon.get()
-//     console.log(res)
-//     sleep.sleep(3)
+var contractText = "pragma solidity >= 0.4.0;contract SimpleStorage {uint storedData; function set(uint256 x) public { storedData = x;} function get() public view returns (uint256) { return storedData;}}"
+var contractAddress = RunContract(cotractName, contractText)
 
-// }
+var getcontract = web3.thk.GetContract(contractAddress)
+var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
+    // var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
+    web3.thk.setVal("0")
+    myCon.set(2)
+    sleep.sleep(3)
+    var res = myCon.get()
+    console.log(res)
+    sleep.sleep(3)
+
 
 // var sendtxResp = web3.thk.SendTx(
 //     '2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
@@ -66,7 +61,7 @@ var contractText2 = "pragma solidity >= 0.4.0;contract " + cotractName2 + " {uin
 // console.log("getBlockTxsResp response:");
 // console.log(getBlockTxsResp);
 //
-var compileContractResp = web3.thk.CompileContract('2', 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
+var compileContractResp = web3.thk.CompileContract(web3.thk.defaultChainId, 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
 console.log("compileContractResp response:");
 // console.log(compileContractResp);
 //
@@ -75,20 +70,31 @@ console.log("compileContractResp response:");
 //
 // console.log(hash);
 
-// function RunContract(contractName, contractText) {
-//     var balance = web3.thk.GetAccount('0x0000000000000000000000000000000000000000');
-//     var contractresp = web3.thk.CompileContract("2", contractText)
-//     var contractKey = '<stdin>:' + contractName
-//     code = contractresp[contractKey]["code"]
-//     // 发布合约
-//     var contracthash = web3.thk.SendTx("2", '0x0000000000000000000000000000000000000000', "", balance['nonce'], '0', code)
-//     sleep.sleep(5)
-//     // 获取合约hash
-//     var conresp = web3.thk.GetTransactionByHash("2", contracthash)
-//     var contractAddress = conresp['contractAddress']
-//     web3.thk.SaveContract(contractAddress, contractresp)
-//     return contractAddress
-// }
+function RunContract(contractName, contractText) {
+    var balance = web3.thk.GetAccount(web3.thk.defaultChainId, '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23');
+    var contractresp = web3.thk.CompileContract(web3.thk.defaultChainId, contractText)
+    code = contractresp[contractName]["code"]
+    // 发布合约
+    tx = {
+        chainId: web3.thk.defaultChainId,
+        fromChainId: web3.thk.defaultChainId,
+        toChainId: web3.thk.defaultChainId,
+        from: web3.thk.defaultAddress,
+        to: "",
+        nonce: balance['nonce'].toString(),
+        value: "0",
+        input: code,
+    }
+    web3.thk.signTransaction(tx, web3.thk.defaultPrivateKey)
+    var contracthash = web3.thk.SendTx(tx)
+    sleep.sleep(5)
+    // 获取合约hash
+    TxHash = contracthash["TXhash"]
+    var conresp = web3.thk.GetTransactionByHash(web3.thk.defaultChainId, TxHash)
+    var contractAddress = conresp['contractAddress']
+    web3.thk.SaveContract(contractAddress, contractresp)
+    return contractAddress
+}
 
 
 

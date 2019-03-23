@@ -373,7 +373,7 @@ describe('contract', function () {
             var contract = web3.eth.contract(desc).at(address);
 
             var test = function() {
-              var r = contract.balance({from: address, gas: 50000});
+            var r = contract.balance({from: address, gas: 50000});
             }
             assert.throws(test, errors.InvalidNumberOfSolidityArgs(signature).message);
 
