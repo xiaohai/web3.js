@@ -2,11 +2,11 @@
 
 
 var Web3 = require('../index.js');
-var sleep = require('sleep')
+// var sleep = require('sleep')
 var web3 = new Web3();
 
 
-web3.setProvider(new web3.providers.HttpProvider('http://thinkey.natapp1.cc'));
+web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
 const privateKey = new Buffer('4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 
 web3.thk.defaultPrivateKey = privateKey
@@ -17,16 +17,22 @@ var cotractName = "SimpleStorage"
 var contractText = "pragma solidity >= 0.4.0;contract SimpleStorage {uint storedData; function set(uint256 x) public { storedData = x;} function get() public view returns (uint256) { return storedData;}}"
 var contractAddress = RunContract(cotractName, contractText)
 
+function sleep(delay) {
+    var start = (new Date()).getTime();
+    while ((new Date()).getTime() - start < delay) {
+      continue;
+    }
+}
+
 var getcontract = web3.thk.GetContract(contractAddress)
 var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
     // var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
     web3.thk.setVal("0")
     myCon.set(2)
-    sleep.sleep(3)
+    sleep(3000)
     var res = myCon.get()
     console.log(res)
-    sleep.sleep(3)
-
+    sleep(3000)
 
 // var sendtxResp = web3.thk.SendTx(
 //     '2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
@@ -87,7 +93,7 @@ function RunContract(contractName, contractText) {
     }
     web3.thk.signTransaction(tx, web3.thk.defaultPrivateKey)
     var contracthash = web3.thk.SendTx(tx)
-    sleep.sleep(5)
+    sleep(5000)
     // 获取合约hash
     TxHash = contracthash["TXhash"]
     var conresp = web3.thk.GetTransactionByHash(web3.thk.defaultChainId, TxHash)
