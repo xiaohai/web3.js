@@ -15,7 +15,7 @@ web3.thk.defaultChainId = "2"
 
 var cotractName = "SimpleStorage"
 var contractText = "pragma solidity >= 0.4.0;contract SimpleStorage {uint storedData; function set(uint256 x) public { storedData = x;} function get() public view returns (uint256) { return storedData;}}"
-var contractAddress = RunContract(cotractName, contractText)
+// var contractAddress = RunContract(cotractName, contractText)
 
 function sleep(delay) {
     var start = (new Date()).getTime();
@@ -24,24 +24,32 @@ function sleep(delay) {
     }
 }
 
-var getcontract = web3.thk.GetContract(contractAddress)
-var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
-    // var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
-    web3.thk.setVal("0")
-    myCon.set(2)
-    sleep(3000)
-    var res = myCon.get()
-    console.log(res)
-    sleep(3000)
+// var getcontract = web3.thk.GetContract(contractAddress)
+// var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
+//     // var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
+//     web3.thk.setVal("0")
+//     myCon.set(2)
+//     sleep(3000)
+//     var res = myCon.get()
+//     console.log(res)
+//     sleep(3000)
 
-// var sendtxResp = web3.thk.SendTx(
-//     '2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
-//     '1', '0', '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c'
-// );
+// let obj = {
+//     chainId: web3.thk.defaultChainId,
+//     fromChainId: web3.thk.defaultChainId,
+//     toChainId: web3.thk.defaultChainId,
+//     from:'0x0000000000000000000000000000000000000000',
+//     to: '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+//     nonce: '1',
+//     value: '0',
+//     input: '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c'
+// }
+// let sendTxParams = web3.thk.signTransaction(obj,web3.thk.defaultPrivateKey)
+// var sendtxResp = web3.thk.SendTx(sendTxParams);
 // console.log("sendtxResp response:");
 // console.log(sendtxResp);
 //
-// var getTxByHashResp = web3.thk.GetTxByHash('2', '0x29d7eef512137c55f67a7012e814e5add45ae8b81a9ceb8e754c38e8aa5dee4d');
+// var getTxByHashResp = web3.thk.GetTransactionByHash('2', '0xba2fe9309f7e1bcd1a04cd9f50a918f88d5f5da09422fa025373543463eccc09');
 // console.log("getTxByHashResp response:");
 // console.log(getTxByHashResp);
 //
@@ -67,8 +75,8 @@ var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"])
 // console.log("getBlockTxsResp response:");
 // console.log(getBlockTxsResp);
 //
-var compileContractResp = web3.thk.CompileContract(web3.thk.defaultChainId, 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
-console.log("compileContractResp response:");
+// var compileContractResp = web3.thk.CompileContract(web3.thk.defaultChainId, 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
+// console.log("compileContractResp response:");
 // console.log(compileContractResp);
 //
 //
