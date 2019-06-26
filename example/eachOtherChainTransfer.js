@@ -80,14 +80,14 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
                 to: "0x0000000000000000000000000000000000030000",
                 nonce: getNonce.nonce.toString(),
                 value: '0',
-                input: proofResult.input
+                input: proofResult.proof
             } 
             let signParams = web3.thk.signTransaction(obj,web3.thk.defaultPrivateKey);
             let sendResult = web3.thk.SendTx(signParams)
             console.log("sendTx response two:", sendResult,signParams);
             if(sendResult && sendResult.TXhash){  //存款结束查询hash结果
                 sleep(5000)
-                var getHashResult = web3.thk.GetTransactionByHash(web3.thk.defaultChainId, sendResult.TXhash);
+                var getHashResult = web3.thk.GetTransactionByHash(_toIds, sendResult.TXhash);
                 console.log("getTxByHashResp response two:", getHashResult);
                 if(getHashResult && getHashResult.status === 1){
                     console.log('sendTx success!!!');
@@ -115,13 +115,13 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
                             to: "0x0000000000000000000000000000000000040000",
                             nonce: getNonceTh.nonce.toString(),
                             value: '0',
-                            input: proofTwoResult.input
+                            input: proofTwoResult.proof
                         } 
                         let signParamsThree = web3.thk.signTransaction(sendTxThreeObj,web3.thk.defaultPrivateKey);
                         let sendThreeResult = web3.thk.SendTx(signParamsThree)
                         console.log("sendTx response three:", sendThreeResult);
                         if(sendThreeResult && sendThreeResult.TXhash){  //退款查询hash流程
-                            sleep(3000)
+                            sleep(5000)
                             var getHashResultThree = web3.thk.GetTransactionByHash(web3.thk.defaultChainId, sendThreeResult.TXhash);
                             console.log("getTxByHashResp response three:", getHashResultThree);
                             if(getHashResultThree && getHashResultThree.status === 1){

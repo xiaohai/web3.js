@@ -24,7 +24,11 @@ function sleep(delay) {
     }
 }
 
+// var balance = web3.thk.GetAccount(web3.thk.defaultChainId, '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23');
+// console.log('get account response',balance);
+
 // var getcontract = web3.thk.GetContract(contractAddress)
+// console.log('get contract:', getcontract);
 // var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
 //     // var myCon2 = web3.thk.contract(getcontract2["<stdin>:" + cotractName2]["info"]["abiDefinition"]).at(contractAddress2);
 //     web3.thk.setVal("0")
@@ -48,38 +52,42 @@ function sleep(delay) {
 // var sendtxResp = web3.thk.SendTx(sendTxParams);
 // console.log("sendtxResp response:");
 // console.log(sendtxResp);
-//
+
 // var getTxByHashResp = web3.thk.GetTransactionByHash('2', '0xba2fe9309f7e1bcd1a04cd9f50a918f88d5f5da09422fa025373543463eccc09');
 // console.log("getTxByHashResp response:");
 // console.log(getTxByHashResp);
-//
-// var getStatsResp = web3.thk.GetStats('2');
-// console.log("getStatsResp:");
-// console.log(getStatsResp);
-//
-// var getTxsResp = web3.thk.GetTransactions('2', 50, 70);
+
+var getStatsResp = web3.thk.GetStats('2');
+console.log("getStatsResp:");
+console.log(getStatsResp);
+
+// var getTxsResp = web3.thk.GetTransactions('2','0x4fa1c4e6182b6b7f3bca273390cf587b50b47311', 50, 70);
 // console.log("getTxsResp response:");
 // console.log(getTxsResp);
-//
-// var callTransactionResp = web3.thk.CallTransaction('2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e','22','0', '0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001');
+// let obj = {
+//     chainId:'2', 
+//     from:'0x0000000000000000000000000000000000000000', 
+//     to:'0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+//     nonce:'22',
+//     value:'0', 
+//     input:'0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001'
+// }
+// var callTransactionResp = web3.thk.CallTransaction(obj);
 // console.log("callTransactionResp response:");
 // console.log(callTransactionResp);
-//
-// var getBlockHeaderResp = web3.thk.GetBlockHeader('2', '30');
-// console.log(1)
 
-// console.log("getBlockHeaderResp response:");
-// console.log(getBlockHeaderResp);
-//
+// var getBlockHeaderResp = web3.thk.GetBlockHeader('2', '30');
+// console.log('getblockheader', getBlockHeaderResp)
+
 // var getBlockTxsResp = web3.thk.GetBlockTxs('2', '30','1','10');
 // console.log("getBlockTxsResp response:");
 // console.log(getBlockTxsResp);
-//
+
 // var compileContractResp = web3.thk.CompileContract(web3.thk.defaultChainId, 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
 // console.log("compileContractResp response:");
 // console.log(compileContractResp);
-//
-//
+
+
 // var hash = web3.sha3("Some string to be hashed");
 //
 // console.log(hash);
