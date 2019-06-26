@@ -19,6 +19,19 @@ function sleep(delay) {
     }
 }
 
+
+/* 继续交易或退款流程  
+    1.  生成取消支票          web3.thk.MakeCCCExistenceProof
+    判断条件   终止交易
+    2.  退款参数签名          web3.thk.signTransaction；
+    3.  退款交易              web3.thk.SendTx；
+    4.  查询退款hash结果     web3.thk.GetTransactionByHash;
+    继续交易             web3.thk.RpcMakeVccProof；
+    5.  存款参数签名          web3.thk.signTransaction；
+    6.  存款交易              web3.thk.SendTx；
+    7.  查询存款hash结果      web3.thk.GetTransactionByHash;
+*/
+
 let str = '0x000000022c7536e3605d9c16a7a3d7b1898e529396a65c23000000000000005a000000032c7536e3605d9c16a7a3d7b1898e529396a65c2300000000000093c72000000000000000000000000000000000000000000000000000038d7ea4c68000'
 var getAccounts = web3.thk.GetAccount(web3.thk.defaultChainId, web3.thk.defaultAddress);
 console.log("get account :", getAccounts);
@@ -55,7 +68,7 @@ if(result && !result.errMsg){
                 to: "0x0000000000000000000000000000000000040000",
                 nonce: getNonceTh.nonce.toString(),
                 value: '0',
-                input: result.input
+                input: result.proof
             } 
             let signParamsThree = web3.thk.signTransaction(sendTxThreeObj,web3.thk.defaultPrivateKey);
             let sendThreeResult = web3.thk.SendTx(signParamsThree)
@@ -81,7 +94,7 @@ if(result && !result.errMsg){
                 to: "0x0000000000000000000000000000000000030000",
                 nonce: getNonce.nonce.toString(),
                 value: '0',
-                input: result.input
+                input: result.proof
             } 
             let signParams = web3.thk.signTransaction(obj,web3.thk.defaultPrivateKey);
             let sendResult = web3.thk.SendTx(signParams)

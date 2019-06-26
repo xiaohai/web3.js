@@ -19,6 +19,20 @@ function sleep(delay) {
     }
 }
 
+/* 跨链转账流程   先取款 再存款
+    1.  取款参数签名          web3.thk.signTransaction；
+    2.  取款交易              web3.thk.SendTx；
+    3.  查询取款hash结果      web3.thk.GetTransactionByHash;
+    4.  生成支票              web3.thk.RpcMakeVccProof；
+    5.  存款参数签名          web3.thk.signTransaction；
+    6.  存款交易              web3.thk.SendTx；
+    7.  查询存款hash结果      web3.thk.GetTransactionByHash;
+    若存款失败执行退款流程
+    8.  退款参数签名          web3.thk.signTransaction；
+    9.  退款交易              web3.thk.SendTx；
+    10.  查询退款hash结果     web3.thk.GetTransactionByHash;
+*/
+
 var getAccounts = web3.thk.GetAccount(web3.thk.defaultChainId, web3.thk.defaultAddress);
 console.log("get account :", getAccounts);
 var getStatsResp = web3.thk.GetStats('2');
