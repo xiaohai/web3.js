@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-web3.min.js"></script>
+<script type="text/javascript" src="../dist/web3.js"></script>
+<script type="text/javascript">
+   
+    var Web3 = require('web3');
+
+    ScatterJS.plugins( new ScatterETH() );
+
+    const network = ScatterJS.Network.fromJson({
+        blockchain:'eth',
+        chainId:'1',
+        host:'127.0.0.1',
+        port:443,
+        protocol:'https'
+    });
+
+    ScatterJS.connect('Thinkey', {network}).then(connected => {
+        if(!connected) return console.error('no scatter');
+
+        const privateKey = new Buffer('4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
+        ScatterJS.login().then(async (id) => {
+            if(!id) return console.error('no identity');
+            const account = ScatterJS.scatter.identity.accounts.find(account => account.blockchain === 'eth')
+            const web3 = ScatterJS.scatter.eth(network, Web3);
+            let obj = {
+                chainId: '2',
+                fromChainId: '2',
+                toChainId: '2',
+                from:'0x0000000000000000000000000000000000000000',
+                to: '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+                nonce: '1',
+                value: '0',
+                input: '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c'
+            }
+            let sendTxParams = web3.thk.signTransaction(obj,privateKey);
+            console.log('sign result',sendTxParams);
+            
+        });
+    });
+
+
+</script>
+</head>
+<body>
+    <h1>coinbase balance</h1>
+    <button type="button" onClick="watchBalance();">watch balance</button>
+    <div></div>
+    <div id="coinbase"></div>
+    <div id="original"></div>
+    <div id="current"></div>
+    <div id="diff"></div>
+</body>
+</html>
+
