@@ -13,6 +13,7 @@ var thk = web3.thk;
 
 | 参数名 |  类型 |  是否必须 |  含义 |
 | :---: | :---: | :---: | :---: |
+| chainId	 | string	 | true |  链id |
 | address	 | string	 | true |  账户地址 |
 
 响应参数:
@@ -27,17 +28,17 @@ var thk = web3.thk;
 
 示例:
 ```javascript
-var response = web3.thk.GetAccount('0x0000000000000000000000000000000000000000');
+var response = web3.thk.GetAccount("2","0x2c7536e3605d9c16a7a3d7b1898e529396a65c23");
 ```
 
 ```json
 response:
 {
-   "address": "0x0000000000000000000000000000000000000000",
-   "nonce": 0, //
-   "balance": 0,
-   "storageRoot": null,
-   "codeHash": null
+  	"address": "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23",
+	"balance": 9.99999985e+26,
+	"codeHash": null,
+	"nonce": 43,
+	"storageRoot": null
 }
 ```
 ### web3.thk.SendTx(执行一笔交易)
@@ -45,12 +46,14 @@ response:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | string | true | 交易的发起者在之前进行过的交易数量 |
-| val | string | true | 转账金额 |
+| value | string | true | 转账金额 |
 | input | string | true | 调用合约时的参数 |
+| fromChainId | string | true | 交易发起链 id |
+| toChainId | string | true | 交易接受链 id |
 
 响应参数:
 
@@ -62,8 +65,14 @@ response:
 
 ```javascript
 var response = web3.thk.SendTx(
-    '2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
-    '1', '0', '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c'
+    '2', 
+    '0x0000000000000000000000000000000000000000', 		      			
+    '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+    '1', 
+    '0', 
+    '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c',
+    '2',
+    '2'
 );
 ```
 
@@ -74,12 +83,12 @@ response:
 }
 ```
 
-### web3.thk.GetTxByHash(通过交易hash获取交易详情)
+### web3.thk.GetTransactionByHash(通过交易hash获取交易详情)
 请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | hash | string | true | 交易hash |
 
 响应参数:
@@ -98,7 +107,7 @@ Transaction:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainID | string | true | 链id |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | string | true | 交易的发起者在之前进行过的交易数量 |
@@ -136,7 +145,7 @@ response:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 
 响应参数:
 
@@ -178,12 +187,13 @@ response
 }
 ```
 
-### web3.thk.GetTransactions
-获取指定账户在对应链上一定高度范围内的交易信息<br />请求参数:
+### web3.thk.GetTransactions(获取指定账户在对应链上一定高度范围内的交易信息)
+请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
+| address | string | true | 链地址 |
 | startHeight | string | true | 查询的起始块高 |
 | endHeight | string | true | 查询的截止块高 |
 
@@ -192,49 +202,56 @@ response
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
 | chainid | string | true | 链id |
-| height | int | true | 查询的起始块高 |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | int | true | 交易的发起者在之前进行过的交易数量 |
 | value | int | true | 转账金额 |
 | timestamp | int | true | 交易的时间戳 |
+| input | string | true | 调用合约时的参数 |
+| hash | string | true | 交易hash |
 
 
 
 ```javascript
-var response = web3.thk.GetTransactions('2', 50, 70);
+var response = web3.thk.GetTransactions('2',"4fa1c4e6182b6b7f3bca273390cf587b50b47311", 50, 70);
 ```
 
 ```json
 response:
 [
-      {
-          "chainid": 2,
-          "height": 118,
-          "from": "0x0000000000000000000000000000000000000000",
-          "to": null,
-          "nonce": 0,
-          "value": 0,
-          "timestamp": 1547708801
-      },
-      {
-          "chainid": 2,
-          "height": 3831,
-          "from": "0x0000000000000000000000000000000000000000",
-          "to": null,
-          "nonce": 1,
-          "value": 0,
-          "timestamp": 1547716293
-      }
+    {
+        "chainid": 2,
+        "from": "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23",
+        "to": “0x0000000000000000000000000000000000020000”,
+        "nonce": 0,
+        "value": 0,
+        "input":
+        "0x000000022c7536e3605d9c16a7a3d7b1898e529396a65c230000000000000000000000034fa1c4e6182b6b7f3bca273390cf587b50b4731100000000000456440101",
+        "hash":
+        "0x0ea5dad47833fc6286357b6bd6c1a4e910def5f4432a1a59bde0f816c3dd18e0",
+        "timestamp": 1560425588
+    },
+    {
+        "chainid": 2,
+        "from": "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23",
+        "to": "0x133c5bfef5d486052b061b44af113f20057341a8",
+        "nonce": 1,
+        "value": 0,
+        "input":
+        "0xa9059cbb00000000000000000000000066261e3faf00ef1537b22f37d8db85f57066f58f0000000000000000000000000000000000000000000000000000000000004e20",
+        "hash":
+        "0x1dbbda2d229db82ff12b3bea82d49225e6bebd645def4c06da157ddbe5660066",
+        "timestamp": 1560425596
+    }
 ]
 ```
 
-### web3.thk.CallTransaction
+### web3.thk.CallTransaction(获取一条交易的信息)
 请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | int | true | 交易的发起者在之前进行过的交易数量 |
@@ -257,12 +274,14 @@ Transaction:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainID | string | true | 链id |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | string | true | 交易的发起者在之前进行过的交易数量 |
-| val | string | true | 转账金额 |
+| value | string | true | 转账金额 |
 | input | string | true | 调用合约时的参数 |
+| hash | string | true | 交易hash |
+| timestamp | int | true | 交易的时间戳 |
 
 请求示例:
 
@@ -279,7 +298,9 @@ response:
         "to": "0x0e50cea0402d2a396b0db1c5d08155bd219cc52e",
         "nonce": 2,
         "value": 0,
-        "input": "0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001"
+        "input": "0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001",
+        "hash": '',
+		"timestamp": 0
     },
     "root": null,
     "status": 0,
@@ -290,12 +311,12 @@ response:
 }
 ```
 
-### web3.thk.GetBlockHeader获取制定块高信息
+### web3.thk.GetBlockHeader(获取指定块高信息)
 请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | height | string | true | 查询块的块高 |
 
 响应参数:
@@ -333,12 +354,12 @@ response:
 }
 ```
 
-### web3.thk.GetBlockTxs
+### web3.thk.GetBlockTxs(获取指定块高的交易信息)
 请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | height | string | true | 查询块的块高 |
 | page | string | true | 页码 |
 | size | string | true | 页的大小 |
@@ -354,13 +375,15 @@ accountchanges:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | height | int | true | 查询的起始块高 |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | int | true | 交易的发起者在之前进行过的交易数量 |
 | value | int | true | 转账金额 |
 | timestamp | int | true | 交易的时间戳 |
+| input | string | true | 调用合约的参数 |
+| hash | string | true | 交易 hash |
 
 请求示例:
 
@@ -374,24 +397,328 @@ response:
     "elections": null,
     "accountchanges": [
         {
-            "chainid": 2,
+            "chainId": 2,
             "height": 30,
             "from": "0x4fa1c4e6182b6b7f3bca273390cf587b50b47311",
             "to": "0x4fa1c4e6182b6b7f3bca273390cf587b50b47311",
             "nonce": 30,
             "value": 1,
+            "input": "0x",
+			"hash":
+"0x4bff6fad0cd46599289e4e465987cfc94278363b12eca3f37572be8c2ce1b061",
             "timestamp": 1547777358
         }
     ]
 }
 ```
 
-### web3.thk.CompileContract编译合约
+### web3.thk.GetChainInfo(获取链id数组的信息，传空数组代表所有)
+
+请求参数:
+
+| 参数名称 | 参数类型 | 是否必须 |             含义             |
+| :------: | :------: | :------: | :--------------------------: |
+| chainIds |  array   |   true   | 链id数组(备注：传空代表所有) |
+
+响应参数:
+
+| **参数名称** | **参数类型** | **是否必须** |  **含义**  |
+| :----------: | :----------: | :----------: | :--------: |
+|   chainId    |    string    |     true     |    链id    |
+|  datanodes   |    array     |     true     | 数据节点群 |
+|     mode     |     int      |     true     |    模式    |
+|    parent    |     int      |     true     |     父     |
+
+datanodes:
+
+|   参数名称   | 参数类型 | 是否必须 |     含义     |
+| :----------: | :------: | :------: | :----------: |
+|  dataNodeId  |   int    |   true   |  数据节点id  |
+|  dataNodeIp  |  string  |   true   | 数据节点 ip  |
+| dataNodePort |   int    |   true   | 数据节点端口 |
+
+请求示例:
+
+```javascript
+var response = web3.thk.GetChainInfo([])
+```
+
+```json
+response:
+[
+    {
+        "chainId": 0,
+        "datanodes": [
+            {
+                "dataNodeId":
+                "0x5e17128ba224a96d6e84be0c7f899febea26c55c78940610d78a0d22dbd0ab03cc3233491d
+                e0b5eb770dbf850b509bd191723df4fc40520bcbab565d46543d6e",
+                "dataNodeIp": "192.168.1.13",
+                "dataNodePort": 22010
+            }
+        ],
+        "mode": 5,
+        "parent": 1048576
+    },
+    {
+        "chainId": 1,
+        "datanodes": [
+            {
+                "dataNodeId":
+                "0x96dc94580e0eadd78691807f6eac9759b9964daa8b46da4378902b040e0eb102cb48413308
+                d2131e9e5557321f30ba9287794f689854e6d2e63928a082e79286",
+                "dataNodeIp": "192.168.1.13",
+                "dataNodePort": 22014
+            }
+        ],
+        "mode": 6,
+        "parent": 0
+    },
+    {
+        "chainId": 2,
+        "datanodes": [
+            {
+                "dataNodeId":
+                "0xa93b150f11c422d8700554859281be8e34a91a859e0e021af186002c7e4a2661ea2467a63b
+                417030d68e2fdddeb4342943dff13225da77124abf912fd092f71f",
+                "dataNodeIp": "192.168.1.13",
+                "dataNodePort": 22018
+            }
+        ],
+        28
+        "mode": 6,
+        "parent": 0
+    },
+    {
+        "chainId": 3,
+        "datanodes": [
+            {
+                "dataNodeId":
+                "0x783f4b2490461ecfd8ee8d3451e434de06bacb0ffff56de53a33fe545589094fa0b929eeaa
+                62dc5203d1e831ccdd37d206d0b85b193921efb223bf0cb2f37b4c",
+                "dataNodeIp": "192.168.1.13",
+                "dataNodePort": 22022
+            }
+        ],
+        "mode": 7,
+        "parent": 1
+    },
+    {
+        "chainId": 4,
+        "datanodes": [
+            {
+                "dataNodeId":
+                "0x44c98ab831f3ca4553e491bba06753e959ceb55d43e18bc76539572feb1e0dbaf2fbfc19f5
+                29
+                71d6544e82be1c7c39760f6a023d4be4dcb9473dd580c731d03926",
+                "dataNodeIp": "192.168.1.13",
+                "dataNodePort": 22026
+            }
+        ],
+        "mode": 7,
+        "parent": 1
+    }
+]
+```
+
+### web3.thk.GetCommittee(获取委员会详情)
+
+请求参数:
+
+| **参数名称** | **参数类型** | **是否必须** | **含义** |
+| :----------: | :----------: | :----------: | :------: |
+|   chainId    |    string    |     true     |   链id   |
+
+响应参数:
+
+| **参数名称** | **参数类型** | **是否必须** |  **含义**  |
+| :----------: | :----------: | :----------: | :--------: |
+|              |    array     |     true     | 委员会详情 |
+
+请求示例:
+
+```javascript
+var response = web3.thk.GetCommittee("1","411")
+```
+
+```javascript
+response:
+[
+"0xd1f889690f8c75bbada89a4c8893b8bf6fe29be3b5c3d8a2d772024a340d59d375f39ed884
+98666a57da10af885ad63a414f8a10153fb739eb1ebfcef57cc883",
+"0xe90a151759bf070969aae664e00502bb08568c85a73874492a3ec480c5178d5da29c790896
+fc62106e32d172819dec94202ff90f3b7ba3e6adf38508bc58cf43",
+"0x84385cc16d8e0a47909ee998d51370e5f56d7c85716e045c99760bedb180346da7d00b575b
+a23b76ffcd0969ae84e1e6b6943ec408f40b44825128577d8a895d",
+"0xd0c7107542af7e0019e1340a77a00131d60f49f5543de76b1d5768660e6d694b5dee3e2060
+49bf0009d2859db0b7378240667d85eeb8138426efe9fd3568ebe3"
+]
+```
+
+### web3.thk.RpcMakeVccProof(生成支票证明)
+
+请求参数:
+
+| **参数名称** | **参数类型** | **是否必须** | **含义** |
+| :----------: | :----------: | :----------: | :------: |
+| transaction  |     dict     |     true     | 交易对象 |
+
+transaction:
+
+| **参数名称** | **参数类型** | **是否必须** |              **含义**              |
+| :----------: | :----------: | :----------: | :--------------------------------: |
+|   chainId    |    string    |     true     |                链id                |
+| fromChainId  |    string    |     true     |       交易发起账户地址的链id       |
+|  toChainId   |    string    |     true     |       交易接受账户地址的链id       |
+|     from     |    string    |     true     |          交易发起账户地址          |
+|      to      |    string    |     true     |          交易接受账户地址          |
+|    nonce     |    string    |     true     | 交易的发起者在之前进行过的交易数量 |
+|    value     |    string    |     true     |              转账金额              |
+| expireheight |     int      |     true     |              过期高度              |
+
+响应参数:
+
+| 参数名称 | 参数类型 | 是否必须 |      含义      |
+| :------: | :------: | :------: | :------------: |
+|  input   |  string  |   true   | 生成的支票证明 |
+
+请求示例:
+
+```javascript
+let obj = {
+    chainId: '2',
+    from: '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23',
+    to: '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23',
+    fromChainId: '2',
+    toChainId: '3',
+    value: '1000000000000000',
+    expireheight: '54223',
+    nonce: '47'
+}
+var response = web3.thk.RpcMakeVccProof(obj)
+```
+
+```javascript
+response:
+{
+    "input":
+  '0x95000000022c7536e3605d9c16a7a3d7b1898e529396a65c23000000000000002f000000032c7536e3605d9c16a7a3d7b1898e529396a65c23000000000000d3cf07038d7ea4c6800002a2d30bc06dc891383f7c61c310c9109aae0407508ced3f5562670b13cc5f093777a65a0193941093a1b6df76df5387752a24b904aac80067c3aa0ea7eb1b40074d4a30889e0083412744c2000080809409934080c20202808100018187aa9f339cf1ba6ffe6986f68c639a835fac453ac37d0df6e72091b1cd1cd30001019424930080c20000c02c83b4898418ce3324a2deeacf5848d49981f8ad2ad60c810c23e78e840dbc1781000524ac33cdd9e9bf0cbdfc4d357d81d5d1638dd7516ec38d779300f5f6e76d9b7ee0eccda334e611eb97288b59a36e78b25eb15746f593036a56ab50f89174f60062e715f8969d49b1ada75ce66977ab01219068e1adcf104eb328442fa3002759eca078605c1b0ad6ff4323f7c23307585d3dddd504f96e7a7f722f9802d2a1b7130047aeaaba37848d7c13a6df0328565e15ba9401b2485ac662423afcc01bb4000110'
+}
+```
+
+### web3.thk.MakeCCCExistenceProof(生成取消支票)
+
+请求参数:
+
+| **参数名称** | **参数类型** | **是否必须** | **含义** |
+| :----------: | :----------: | :----------: | :------: |
+| transaction  |     dict     |     true     | 交易对象 |
+
+transaction:
+
+| **参数名称** | **参数类型** | **是否必须** |              **含义**              |
+| :----------: | :----------: | :----------: | :--------------------------------: |
+|   chainId    |    string    |     true     |                链id                |
+| fromChainId  |    string    |     true     |       交易发起账户地址的链id       |
+|  toChainId   |    string    |     true     |       交易接受账户地址的链id       |
+|     from     |    string    |     true     |          交易发起账户地址          |
+|      to      |    string    |     true     |          交易接受账户地址          |
+|    nonce     |    string    |     true     | 交易的发起者在之前进行过的交易数量 |
+|    value     |    string    |     true     |              转账金额              |
+| expireheight |     int      |     true     |              过期高度              |
+
+响应参数:
+
+| 参数名称  | 参数类型 | 是否必须 |       含义       |
+| :-------: | :------: | :------: | :--------------: |
+|   input   |  string  |   true   | 调用合约时的参数 |
+| existence |   bool   |   true   |   是否存过支票   |
+
+请求示例:
+
+```javascript
+let obj = {
+    chainId: '2',
+    from: '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23',
+    to: '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23',
+    fromChainId: '2',
+    toChainId: '3',
+    value: '1000000000000000',
+    expireheight: '54223',
+    nonce: '47'
+}
+var response = web3.thk.MakeCCCExistenceProof(obj)
+```
+
+```javascript
+response:
+{
+    "existence": false,
+    "input":
+  '0x95000000022c7536e3605d9c16a7a3d7b1898e529396a65c23000000000000002f000000032c7536e3605d9c16a7a3d7b1898e529396a65c23000000000000d3cf07038d7ea4c6800002a2d30bc06dc891383f7c61c310c9109aae0407508ced3f5562670b13cc5f093777a65a0193941093a1b6df76df5387752a24b904aac80067c3aa0ea7eb1b40074d4a30889e0083412744c2000080809409934080c20202808100018187aa9f339cf1ba6ffe6986f68c639a835fac453ac37d0df6e72091b1cd1cd30001019424930080c20000c02c83b4898418ce3324a2deeacf5848d49981f8ad2ad60c810c23e78e840dbc1781000524ac33cdd9e9bf0cbdfc4d357d81d5d1638dd7516ec38d779300f5f6e76d9b7ee0eccda334e611eb97288b59a36e78b25eb15746f593036a56ab50f89174f60062e715f8969d49b1ada75ce66977ab01219068e1adcf104eb328442fa3002759eca078605c1b0ad6ff4323f7c23307585d3dddd504f96e7a7f722f9802d2a1b7130047aeaaba37848d7c13a6df0328565e15ba9401b2485ac662423afcc01bb4000110'
+}
+```
+
+### web3.thk.Ping(链接指定ip端口)
+
+请求参数:
+
+| **参数名称** | **参数类型** | **是否必须** | **含义** |
+| :----------: | :----------: | :----------: | :------: |
+|   address    |    string    |     true     | ip+端口  |
+
+transaction:
+
+| **参数名称**  |  **参数类型**  | **是否必须** |    **含义**    |
+| :-----------: | :------------: | :----------: | :------------: |
+|    nodeId     |     string     |     true     |    节点 id     |
+|    version    |     string     |     true     |      版本      |
+|  isDataNode   |      bool      |     true     | 是否是数据节点 |
+|  dataNodeOf   | Common.ChainId |     true     |    数据节点    |
+|  lastMsgTime  |     int64      |     true     | 上一个信息时间 |
+| lastEventTime |     int64      |     true     | 上一个事件时间 |
+| lastBlockTime |     int64      |     true     |  上一个块时间  |
+|   overflow    |      bool      |     true     |      溢出      |
+|  lastBlocks   |      map       |     true     |   最后一个块   |
+|    opTypes    |      map       |     true     |      类型      |
+
+请求示例:
+
+```javascript
+var response = web3.thk.Ping("192.168.1.13:22010")
+```
+
+```javascript
+response:
+{
+    "nodeId":
+    "0x5e17128ba224a96d6e84be0c7f899febea26c55c78940610d78a0d22dbd0ab03cc3233491d
+    e0b5eb770dbf850b509bd191723df4fc40520bcbab565d46543d6e",
+    "version": "V1.0.0",
+    "isDataNode": true,
+    "dataNodeOf": 0,
+    "lastMsgTime": 1560850367,
+    "lastEventTime": 1560850367,
+    "lastBlockTime": 1560850367,
+    "overflow": false,
+    "lastBlocks": {
+    	"0": 159927
+    },
+    "opTypes": {
+        "0": [
+        	"DATA"
+        ]
+    }
+}
+```
+
+### web3.thk.CompileContract(编译合约)
+
 请求参数:
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
-| chainid | string | true | 链id |
+| chainId | string | true | 链id |
 | contract | string | true | 合约代码 |
 
 响应参数:

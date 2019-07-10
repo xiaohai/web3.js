@@ -82,7 +82,7 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
             nonce: _nonce.toString()
         }
         let proofResult = web3.thk.RpcMakeVccProof(proofObj);
-        console.log('get rpcVccProof result first: ', proofResult);
+        console.log('get rpcVccProof result first: ', proofResult, proofObj);
         if(proofResult && !proofResult.errMsg){  //生成支票成功， 执行存款流程
             var getNonce = web3.thk.GetAccount(_toIds, web3.thk.defaultAddress);
 
@@ -94,7 +94,7 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
                 to: "0x0000000000000000000000000000000000030000",
                 nonce: getNonce.nonce.toString(),
                 value: '0',
-                input: proofResult.proof
+                input: proofResult.input
             } 
             let signParams = web3.thk.signTransaction(obj,web3.thk.defaultPrivateKey);
             let sendResult = web3.thk.SendTx(signParams)
@@ -129,7 +129,7 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
                             to: "0x0000000000000000000000000000000000040000",
                             nonce: getNonceTh.nonce.toString(),
                             value: '0',
-                            input: proofTwoResult.proof
+                            input: proofTwoResult.input
                         } 
                         let signParamsThree = web3.thk.signTransaction(sendTxThreeObj,web3.thk.defaultPrivateKey);
                         let sendThreeResult = web3.thk.SendTx(signParamsThree)
