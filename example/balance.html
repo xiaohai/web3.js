@@ -8,32 +8,23 @@
    
     var Web3 = require('web3');
     var web3 = new Web3();
-    web3.setProvider(new web3.providers.HttpProvider());
+    web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
 
-    function watchBalance() {
-        var coinbase = web3.eth.coinbase;
-
-        var originalBalance = web3.eth.getBalance(coinbase).toNumber();
-        document.getElementById('coinbase').innerText = 'coinbase: ' + coinbase;
-        document.getElementById('original').innerText = ' original balance: ' + originalBalance + '    watching...';
-
-        web3.eth.filter('latest').watch(function() {
-            var currentBalance = web3.eth.getBalance(coinbase).toNumber();
-            document.getElementById("current").innerText = 'current: ' + currentBalance;
-            document.getElementById("diff").innerText = 'diff:    ' + (currentBalance - originalBalance);
-        });
+    function getAccount() {
+        let account = web3.thk.GetAccount('2', '0x2c7536e3605d9c16a7a3d7b1898e529396a65c23');
+        
+        document.getElementById('address').innerText = 'address: ' + account.address;
+        document.getElementById('balance').innerText = 'balance: ' + account.balance;
     }
 
 </script>
 </head>
 <body>
-    <h1>coinbase balance</h1>
-    <button type="button" onClick="watchBalance();">watch balance</button>
+    <h1>thinkey account</h1>
+    <button type="button" onClick="getAccount();">get accounts</button>
     <div></div>
-    <div id="coinbase"></div>
-    <div id="original"></div>
-    <div id="current"></div>
-    <div id="diff"></div>
+    <div id="address"></div>
+    <div id="balance"></div>
 </body>
 </html>
 
