@@ -66,26 +66,6 @@ function getAccount(chainId, address){
 
 
 /**
- * @description: 发布合约的流程
- * @return: 
- */
-function releaseContract(){
-    var cotractName = "SimpleStorage"
-    var contractText = "pragma solidity >= 0.4.0;contract SimpleStorage {uint storedData; function set(uint256 x) public { storedData = x;} function get() public view returns (uint256) { return storedData;}}"
-    var contractAddress = RunContract(cotractName, contractText)
-    var getcontract = web3.thk.GetContract(contractAddress)
-    var myCon = web3.thk.contract(getcontract[cotractName]["info"]["abiDefinition"]).at(contractAddress);
-    web3.thk.setVal("0")
-    myCon.set(2)
-    sleep(3000)
-    var res = myCon.get()
-    console.log(res)
-    sleep(3000)
-}
-
-
-
-/**
  * @description: 获取账户余额， 也可以用来获取nonce
  * @param {String} chainId
  * @param {String} fromAddress
@@ -209,7 +189,7 @@ function getBlockPageInfos(chainId, height, page, size){
 
 
 /**
- * @description: 编译合约,与发布合约流程配套使用
+ * @description: 编译合约
  * @param {String} chainId 
  * @param {String} contract
  * @return: 
@@ -287,7 +267,7 @@ function getCommittee(chainId){
 // var getBlockTxsResp = getBlockPageInfos(web3.thk.defaultChainId, '30','1','10');
 // console.log("getBlockTxsResp response:", getBlockTxsResp);
 
-//编译合约,与发布合约流程配套
+//编译合约
 // var compileContractResp = getCompileContract(web3.thk.defaultChainId, 'pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}');
 // console.log("compileContractResp response:",compileContractResp);
 
