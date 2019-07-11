@@ -18,7 +18,6 @@ You need to run a local Ethereum node to use this library.
 - [Installation](#installation)
   - [Node.js](#nodejs)
   - [Yarn](#yarn)
-  - [Meteor.js](#meteorjs)
   - [As a Browser module](#as-a-browser-module)
 - [Usage](#usage)
   - [Migration from 0.13.0 to 0.14.0](#migration-from-0130-to-0140)
@@ -44,31 +43,7 @@ npm install web3
 yarn add web3
 ```
 
-### Meteor.js
-
-```bash
-meteor add ethereum:web3
-```
-
 ### As a Browser module
-
-CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
-```
-
-Bower
-
-```bash
-bower install web3
-```
-
-Component
-
-```bash
-component install ethereum/web3.js
-```
 
 * Include `web3.min.js` in your html file. (not required for the meteor package)
 
@@ -77,7 +52,9 @@ component install ethereum/web3.js
 Use the `web3` object directly from the global namespace:
 
 ```js
-console.log(web3); // {eth: .., shh: ...} // It's here!
+var Web3 = require('web3');
+var web3 = new Web3();
+console.log(web3); // {thk: .., shh: ...} // It's here!
 ```
 
 Set a provider (`HttpProvider`):
@@ -100,22 +77,12 @@ web3.setProvider(new web3.providers.HttpProvider('http://' + BasicAuthUsername +
 There you go, now you can use it:
 
 ```js
-var coinbase = web3.eth.coinbase;
-var balance = web3.eth.getBalance(coinbase);
+var account = web3.thk.GetAccount(chainId,address);
+var balance = account.balance;
 ```
 
 You can find more examples in the [`example`](https://github.com/ethereum/web3.js/tree/master/example) directory.
 
-### Migration from 0.13.0 to 0.14.0
-
-web3.js version 0.14.0 supports [multiple instances of the web3](https://github.com/ethereum/web3.js/issues/297) object.
-To migrate to this version, please follow the guide:
-
-```diff
--var web3 = require('web3');
-+var Web3 = require('web3');
-+var web3 = new Web3();
-```
 ## Contribute!
 
 ### Requirements
