@@ -54,6 +54,8 @@ response:
 | input | string | true | 调用合约时的参数 |
 | fromChainId | string | true | 交易发起链 id |
 | toChainId | string | true | 交易接受链 id |
+| sig | string | true | 交易签名 |
+| pub | string | true | 公钥 |
 
 响应参数:
 
@@ -64,16 +66,18 @@ response:
 示例:
 
 ```javascript
-var response = web3.thk.SendTx(
-    '2', 
-    '0x0000000000000000000000000000000000000000', 		      			
-    '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
-    '1', 
-    '0', 
-    '0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c',
-    '2',
-    '2'
-);
+var response = web3.thk.SendTx({
+  chainId: '2',
+  fromChainId: '2',
+  toChainId: '2',
+  from: '0x0000000000000000000000000000000000000000',
+  to: '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+  nonce: '1',
+  value: '0',
+  input:'0xc3bea9af000000000000000000000000ca35b7d915458ef540ade6068dfe2f44e8fa733c',
+  sig:'0x7d5c7b6b28dd66bada7cfb153fe03433deb331cc74ca82de3ddf49708f1174895404682fcb9bcb30		fdb7f6d041b78c56d87e18df1ca6e7e2bd75e38a6a1c8d631c',
+  pub:'0x044e3b81af9c2234cad09d679ce6035ed1392347ce64ce405f5dcd36228a25de6e47fd35c4215d1e		df53e6f83de344615ce719bdb0fd878f6ed76f06dd277956de' 
+});
 ```
 
 ```json
@@ -247,11 +251,13 @@ response:
 ```
 
 ### web3.thk.CallTransaction(获取一条交易的信息)
-请求参数:
+请求参数:  
 
 | **参数名称** | **参数类型** | **是否必须** | **含义** |
 | :---: | :---: | :---: | :---: |
 | chainId | string | true | 链id |
+| fromChainId | string | true | 交易发起链 id |
+| toChainId | string | true | 交易接受链 id |
 | from | string | true | 交易发起账户地址 |
 | to | string | true | 交易接受账户地址 |
 | nonce | int | true | 交易的发起者在之前进行过的交易数量 |
@@ -286,7 +292,14 @@ Transaction:
 请求示例:
 
 ```javascript
-var response = web3.thk.CallTransaction('2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e','22','0', '0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001');
+var response = web3.thk.CallTransaction({
+    chainId:'2',
+    fromChainId:'2',
+    toChainId:'2', 
+    from:'0x0000000000000000000000000000000000000000',			         to:'0x0e50cea0402d2a396b0db1c5d08155bd219cc52e',
+    nonce:'22',
+    value:'0', 				input:'0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001'
+});
 ```
 
 ```json

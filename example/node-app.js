@@ -145,11 +145,13 @@ function getTransactionInfos(chainId, address, startHeight, endHeight){
  * @param {String} inputs
  * @return: 
  */
-function getTransferInfo(chainId, fromAddress, toAddress, value, nonce, inputs){
+function getTransferInfo(chainId, fromChainId, toChainId, fromAddress, toAddress, value, nonce, inputs){
     let obj = {
         chainId: chainId,
         from:fromAddress,
         to: toAddress,
+        fromChainId: fromChainId,
+        toChainId: toChainId,
         nonce: nonce,
         value: value.toString(),
         input: inputs
@@ -256,7 +258,7 @@ function getCommittee(chainId){
 // console.log("get TxinfosResp response:", getTxsResp);
 
 //获取一条交易的详情
-// var callTransactionResp = getTransferInfo(web3.thk.defaultChainId, '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e', '0', '22','0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001');
+// var callTransactionResp = getTransferInfo(web3.thk.defaultChainId, '2', '2', '0x0000000000000000000000000000000000000000', '0x0e50cea0402d2a396b0db1c5d08155bd219cc52e', '0', '22','0xe98b7f4d0000000000000000000000000000000000000000000000000000000000000001');
 // console.log("callTransactionResp response:", callTransactionResp);
 
 //获取指定块高信息
