@@ -6,10 +6,10 @@ var Web3 = require('../index.js');
 var web3 = new Web3();
 
 
-web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
+// web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
 
 //GetChainInfo   GetCommittee   Ping 用这个url
-// web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz/chaininfo'));
+web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz/chaininfo'));
 
 const privateKey = new Buffer('4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 
@@ -232,8 +232,8 @@ function pingUrl(url){
  * @param {String} chainId
  * @return: 
  */
-function getCommittee(chainId){
-    var getcommittee = web3.thk.GetCommittee(chainId);
+function getCommittee(chainId,epoch){
+    var getcommittee = web3.thk.GetCommittee(chainId,epoch);
     return getcommittee
 }
 
@@ -285,8 +285,8 @@ function getCommittee(chainId){
 // console.log("PING res:",getPingResp);
 
 //获取委员会详情
-// var getCommitteeResp = getCommittee(web3.thk.defaultChainId);
-// console.log("get committee res:",getCommitteeResp);
+var getCommitteeResp = getCommittee(web3.thk.defaultChainId,'4');
+console.log("get committee res:",getCommitteeResp);
 
 /**
  * 跨链交易生成支票证明
