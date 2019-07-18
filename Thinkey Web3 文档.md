@@ -390,6 +390,7 @@ response:
 | accountchanges | array | true | 交易信息 |
 
 accountchanges:
+
 | 参数名 | 类型 | 是否必须| 含义 |
 | :------:| :------: | :------: | :------: |
 | chainId | string | true | 链id |
