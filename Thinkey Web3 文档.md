@@ -1,6 +1,6 @@
 # Thinkey Web3.js SDK接口文档
 
-1. 获取账户余额(web3.thk.getAccount)
+# 1. 获取账户余额(web3.thk.getAccount)
 
 
 请求参数
