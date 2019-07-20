@@ -1,5 +1,5 @@
 {
-  "name": "web3.js_thk",
+  "name": "web3.js-thk",
   "version": "1.0.0",
   "description": "Ethereum JavaScript API, middleware to talk to a ethereum node over RPC",
   "main": "./index.js",
@@ -37,6 +37,12 @@
     "istanbul": "^0.4.4",
     "jshint": "^2.9.6",
     "mocha": "^5.2.0",
+    "lodash": ">=4.17.13",
+    "cached-path-relative": ">=1.0.2",
+    "js-yaml": ">=3.13.1",
+    "lodash.template": ">=4.5.0",
+    "lodash.merge": ">=4.6.2",
+    "handlebars": ">=4.0.14",
     "sandboxed-module": "^2.0.2",
     "vinyl-source-stream": "^2.0.0"
   },
@@ -49,11 +55,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkey-dev/web3.js_thk.git"
+    "url": "https://github.com/thinkey-dev/web3.js-thk.git"
   },
-  "homepage": "https://github.com/thinkey-dev/web3.js_thk",
+  "homepage": "https://github.com/thinkey-dev/web3.js-thk",
   "bugs": {
-    "url": "https://github.com/thinkey-dev/web3.js_thk/issues"
+    "url": "https://github.com/thinkey-dev/web3.js-thk/issues"
   },
   "keywords": [
     "ethereum",

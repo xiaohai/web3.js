@@ -1,5 +1,5 @@
 {
-  "name": "web3.js_thk",
+  "name": "web3.js-thk",
   "version": "1.0.0",
   "description": "Ethereum Compatible JavaScript API",
   "main": [
@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkey-dev/web3.js_thk.git"
+    "url": "https://github.com/thinkey-dev/web3.js-thk.git"
   },
-  "homepage": "https://github.com/thinkey-dev/web3.js_thk",
+  "homepage": "https://github.com/thinkey-dev/web3.js-thk",
   "bugs": {
-    "url": "https://github.com/thinkey-dev/web3.js_thk/issues"
+    "url": "https://github.com/thinkey-dev/web3.js-thk/issues"
   },
   "keywords": [
     "ethereum",

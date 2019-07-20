@@ -2473,7 +2473,7 @@ module.exports = {
 
 },{"./sha3.js":19,"bignumber.js":"bignumber.js","utf8":196}],21:[function(require,module,exports){
 module.exports={
-    "version": "0.20.7"
+    "version": "1.0.0"
 }
 
 },{}],22:[function(require,module,exports){
@@ -6221,8 +6221,8 @@ var PingInputF = function (address) {
     return ({"address": address})
 };
 
-var GetCommitteeInputF = function (chainId) {
-    return ({"chainId": chainId})
+var GetCommitteeInputF = function (chainId,epoch) {
+    return ({"chainId": chainId, "epoch": epoch})
 };
 
 var methods = function () {

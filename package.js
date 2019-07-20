@@ -1,9 +1,9 @@
 /* jshint ignore:start */
 Package.describe({
-  name: 'web3.js_thk',
+  name: 'web3.js-thk',
   version: '1.0.0',
   summary: 'Ethereum JavaScript API, middleware to talk to a ethreum node over RPC',
-  git: 'https://github.com/thinkey-dev/web3.js_thk',
+  git: 'https://github.com/thinkey-dev/web3.js-thk',
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
   documentation: 'README.md'
