@@ -2,15 +2,15 @@
 var Web3 = require('../index.js');
 var web3 = new Web3();
 var createCashCheckInput = require('../lib/utils/createCashCheckInput').createCashCheckInput;
-
-web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
+var BigNumber = require('bignumber.js')
+web3.setProvider(new web3.providers.HttpProvider('http://rpctest.thinkey.xyz'));
 const privateKey = new Buffer('4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 
 web3.thk.defaultPrivateKey = privateKey
 web3.thk.defaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
-web3.thk.defaultChainId = "2"
-_toIds = '3';
-
+web3.thk.defaultChainId = "1"
+_toIds = '2';
+_toAddress= '0x1111111111111111111111111111111111111111'
 
 function sleep(delay) {
     var start = (new Date()).getTime();
@@ -34,21 +34,21 @@ function sleep(delay) {
 */
 
 var getAccounts = web3.thk.GetAccount(web3.thk.defaultChainId, web3.thk.defaultAddress);
-console.log("get account :", getAccounts);
-var getStatsResp = web3.thk.GetStats('2');
-console.log('get states :', getStatsResp);
+// console.log("get account :", getAccounts);
+var getStatsResp = web3.thk.GetStats('1');
+// console.log('get states :', getStatsResp);
 _nonce = getAccounts.nonce.toString();
 _heightNum = getStatsResp.currentheight + 200;
-let valueNum =  1000000000000000;
-
+let valueNum =  3000000;
+valueNum =  new BigNumber(`${valueNum}`).multipliedBy('1e+18');
 let cashObj = {
     FromChain:    web3.thk.defaultChainId,
     FromAddress:  web3.thk.defaultAddress,
     Nonce:        getAccounts.nonce,
     ToChain:      _toIds,
-    ToAddress:    web3.thk.defaultAddress,
+    ToAddress:    _toAddress.toLowerCase(),
     ExpireHeight: getStatsResp.currentheight + 200,
-    Amount:       Number(valueNum)
+    Amount:       valueNum.toString(16)
 }
 let inputText = createCashCheckInput(cashObj)
 
@@ -67,22 +67,23 @@ var sendtxResp = web3.thk.SendTx(sendTxParams);
 console.log("sendTx response first:", sendtxResp);
 
 if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
-    sleep(5000)
+    sleep(10000)
     var result = web3.thk.GetTransactionByHash(web3.thk.defaultChainId, sendtxResp.TXhash);
     console.log("getTxByHashResp response first:", result);
     if(result && result.status === 1){    //取款查询hash成功，执行生成支票流程
         let proofObj = {
             chainId: web3.thk.defaultChainId,
             from: web3.thk.defaultAddress,
-            to: web3.thk.defaultAddress,
+            to: _toAddress.toLowerCase(),
             fromChainId: web3.thk.defaultChainId,
             toChainId: _toIds,
-            value: '1000000000000000',
+            value: valueNum.toString(10),
             expireheight: _heightNum.toString(),
             nonce: _nonce.toString()
         }
+        sleep(30000)
         let proofResult = web3.thk.RpcMakeVccProof(proofObj);
-        console.log('get rpcVccProof result first: ', proofResult, proofObj);
+        console.log('get rpcVccProof result first: ',valueNum.toString(10), proofResult, proofObj);
         if(proofResult && !proofResult.errMsg){  //生成支票成功， 执行存款流程
             var getNonce = web3.thk.GetAccount(_toIds, web3.thk.defaultAddress);
 
@@ -100,7 +101,7 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
             let sendResult = web3.thk.SendTx(signParams)
             console.log("sendTx response two:", sendResult,signParams);
             if(sendResult && sendResult.TXhash){  //存款结束查询hash结果
-                sleep(5000)
+                sleep(10000)
                 var getHashResult = web3.thk.GetTransactionByHash(_toIds, sendResult.TXhash);
                 console.log("getTxByHashResp response two:", getHashResult);
                 if(getHashResult && getHashResult.status === 1){
@@ -109,13 +110,14 @@ if(sendtxResp && sendtxResp.TXhash){  //执行取款流程成功
                     let proofTwoObj = {
                         chainId: _toIds,
                         from: web3.thk.defaultAddress,
-                        to: web3.thk.defaultAddress,
+                        to: _toAddress.toLowerCase(),
                         fromChainId: web3.thk.defaultChainId,
                         toChainId: _toIds,
-                        value: '1000000000000000',
+                        value: '20000000000000000000',
                         expireheight: _heightNum.toString(),
                         nonce: _nonce.toString()
                     }
+                    sleep(30000)
                     let proofTwoResult = web3.thk.RpcMakeVccProof(proofTwoObj);
                     console.log('get rpcVccProof result two: ', proofTwoResult);
                     if(proofTwoResult && !proofTwoResult.errMsg){    //退款生成支票成功,执行退款流程
