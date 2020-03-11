@@ -129,7 +129,7 @@ response:
 }
 ```
 
-# 3. 通过交易hash获取交易详情(web3.thk.GetTxByHash)
+# 3. 通过交易hash获取交易详情(web3.thk.GetTransactionByHash)
 
 请求参数：
            
@@ -151,8 +151,10 @@ response:
 | transactionHash |   string    |   true   |                  交易hash                   |
 | contractAddress |   string    |   true   |                合约账户地址                 |
 |       out       |   string    |   true   |              调用返回结果数据               |
+|     gasUsed     |     int     |   true   |              实际使用的gas个数              |
+|     gasFee      |   String    |   true   |            实际使用总共的gas费用            |
 
-Transaction:
+Tx:
            
 
 | 参数名  |  类型  | 是否必须 |                含义                |
@@ -167,26 +169,45 @@ Transaction:
 请求示例:
 
 ```javascript
-var response = web3.thk.GetTxByHash('2', '0x29d7eef512137c55f67a7012e814e5add45ae8b81a9ceb8e754c38e8aa5dee4d');
+var response = web3.thk.GetTransactionByHash('1', '0xca222630130bad1555ad633d67d2beefbf405d36fdc3e1abd4260f201284292c');
 ```
 
 ```json
 response:
 {
-    "Transaction": {
-        "chainID": 2,
-        "from": "0x0000000000000000000000000000000000000000",
-        "to": null,
-        "nonce": 0,
-        "value": 0,
-        "input": "0x6080604052600160005534801561001557600080fd5b50600260008190555060a18061002c6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063d46300fd146044575b600080fd5b348015604f57600080fd5b506056606c565b6040518082815260200191505060405180910390f35b600080549050905600a165627a7a72305820c52125523008034b3491540aa03fc856951b8da206b011ac05a0c6b52f61b3c00029"
+   "tx": {
+        "chainid": 1,
+        "from": "0x853d5281d92cc5c8d0d1bce1f2f7b125ca4e09e7",
+        "to": "0x2f9bbce6f7d314fbe2b59901d0653a443bc11edd",
+        "nonce": 24,
+        "value": 40000000000000000000,
+        "input": "0x88ffe867",
+        "hash": "",
+        "uselocal": false,
+        "extra": "0x",
+        "timestamp": 0
     },
-    "root": null,
+    "root": "eyJmZWUiOiI3MDM1NTIwMDAwMDAwMDAwMCIsInJvb3QiOm51bGx9",
     "status": 1,
-    "logs": null,
-    "transactionHash": "0x24d06cf16cd9aad66a144ad2b1b2e475d936656027cd70eae792459926b4a8c1",
-    "contractAddress": "0x0e50cea0402d2a396b0db1c5d08155bd219cc52e",
-    "out": "0x"
+    "logs": [
+        {
+            "address": "0x2f9bbce6f7d314fbe2b59901d0653a443bc11edd",
+            "blockNumber": "0x5aacf3",
+            "data": "0x000000000000000000000000853d5281d92cc5c8d0d1bce1f2f7b125ca4e09e70000000000000000000000000000000000000000000000022b1c8c1227a00000000000000000000000000000000000000000000000000000000000005e65d45a",
+            "logIndex": "0x0",
+            "topics": [
+                "0xaba4f973c8f45a52365c8348704e79653e4b58ebd452f2d2115423a62ef7a3e1"
+            ],
+            "transactionHash": "0xca222630130bad1555ad633d67d2beefbf405d36fdc3e1abd4260f201284292c",
+            "transactionIndex": "0x0"
+        }
+    ],
+    "transactionHash": "0xca222630130bad1555ad633d67d2beefbf405d36fdc3e1abd4260f201284292c",
+    "contractAddress": "0x0000000000000000000000000000000000000000",
+    "out": "0x",
+    "gasUsed": 175888,
+    "gasFee": "70355200000000000",
+    "blockHeight": 5942515
 }
 ```
 
@@ -214,29 +235,59 @@ response:
 |   epochduration   |  int   |   true   |    当前时期运行时间    |
 | lastepochduration |  int   |   true   |   上一时期的运行时间   |
 |    currentcomm    | array  |   true   | 当前这条链的委员会成员 |
+|     gaslimit      |  Int   |   True   |      gas默认个数       |
+|     gasprice      | String |   true   |          价格          |
 
 请求示例:
 
 ```javascript
-var response = web3.thk.GetStats('2')
+var response = web3.thk.GetStats('103')
 ```
 
 ```json
 response
 {
-    "currentheight": 5290,
-    "txcount": 5295,
+    "accountcount": 0,
+    "currentcomm": [
+        "0xbfebdb4661c93456c29dcc22ea32340b6a0e400bef924923a53dfe22ad90cbd5069135ef591d65515aa40ef34970599cc7c331667db7f744e89fe8ec305ede9a",
+        "0x0df134ddc7bebb8abe61d8649a3054c107908719a4c5fa49be9ffb32037f84a0768d91bcd33e28c8c410760146eead90a72db6880c2d6eb5cac2f10d2be3563f",
+        "0x37e7ab457bf4d38a96c06f0fc616e001a0eac9f7b7e8407f97bfd39b30569f069541a27cae9e681aff9d50616970b6b554d0893b25561453f58dc6e174e8e70a",
+        "0x8c9cba550f746efcd98635fa6b300cd25ac08b54dda8f067dcba07bb4026c51478a1ac2dd5db3c89179ceab5f10d2f59d6d83f1f9ff652000a0c390b3fbc382e",
+        "0xfa1688066b16f61c72b02af5834a9bb79b746a962c8ed82d6f4afce1c5f7ac1987f291b6063e438d3b6c12856a677901878302b1a5865c837252f1db18cdbd2f",
+        "0x58c484fbb8d825e92b8e8d62c469e327fc8a55f2d521bb041d352ffb1a4e68cf1675c834e87daeea941f268601086c37df270a1048472a424b30af53053a34f7",
+        "0xcdda504db1913c22e961c3f1dfb07941f22b7a0f3b4d3e2a48bc69ad67c0061c21d793e75c35b8f8dcc3a733b8c051fed1ca8d157cea26a65c0bb3c00f8a59f5",
+        "0x70d6885ebb21b83377fcd6387f820b087753e5cbfc0bdb6dcd1b3f116680bbebf615441c55db54e36e587131fc9b645fca412b7c6b428d17bb8c24a1f3ae42c7",
+        "0xcd2eb869ab358cb7f56f0abcf50623eb46bdf63ef52986fdd377948a87b6e2bf667649b658f6e1705b81e9d4a3380dfdcaa122ab69686ad0d30959aadfa999e5",
+        "0x89b0bbcc4df1e4f1be61a527144491be88d86e09db48238ccb07cbd9af19728ff8143318d679184ee058cd57458206ae955d16e16ed5267bdb0819bf6c22c986",
+        "0x9b2c2ffb7e950275b1451a1833e885f555b3c05b02a0cb869427bf252c2eb44d2ac46de7c770f2c621b2118681d3fcfcdf8b38bccdb38622748fdba1b97e2780",
+        "0x7fa9213bf8027e846d2eb6e5b17f6caea7f80a1c0522f85927744e388afa756b21edcaab7d439b6661024225af1f9a5c3f8eab12a8a60402dc08147f697fe988",
+        "0x2010f9c48b2af6679a0821efb657a96fbd8d2621ad20e97ed93eaabaea408baf086ad0009ab235c490e66a11e3ea1924aeaba2955ea7d3f2f9cbd933d41df362",
+        "0xc1f4b9c3b129d88ff072aca7c958c57dbbcd3e1e47718990efa799989a5c16893b70bdc1d3af728169bc9cae5f0c1c22ae37c9aa3026789e1e68fb2f68920909",
+        "0xd9b5f2c6fafe7391e182a98194b972961a8b4e24afa0152f4da0df9f84bbadb496451dc0b7ff4332e311914a93f7c5f60f07953edcbeef8ccc1637157ee0d5c5",
+        "0x73bf86fbc73b5e6f12613a4eeeb8883a6af2d646bab8dd47e117f89d5a5c2369fc908b9003a1db5e4187a11245d61b23b73c2572326048d33860b5b0be9c03c1",
+        "0x59c9add6f7ae1d1cc5e79579f309b720b37da127f171ba0e65a3e083bb27698ff22ca505f3298acf70106344b1d07104db15e317f14822e341ecdc21a1e87929",
+        "0xb7023c7412e51ff1afa679756b354cf74578c93fbbad8eee2c0a2e60347eb4b857e6e45ab41444010e408e9548d749577c1e6f0301d0d14ee0d3844647761cd7",
+        "0x482c7b2e66aabbee8fad39d64faab09f2d0059e1193a5470ec21875cdbd17ce4986f180ab498620d768ef3cba031ee0b534eba21a4c581e3e0842548c5527748",
+        "0xe14da122de07cf0d1553fd91b729e6db6a68a103cf6eff190757f6b3bc34bcc88d2f7877d03ccb3e2be980dbe3b65dca6c10d9ae2823ecb4f8d88770b019f22f",
+        "0x7af07f8cfa74b9367a10b86eac1883fdbc9eab7814675d8bd7138ec6aa805dda80aa115c9ffe416429f87efb008d30f9c1eaf9c2a8cce274a3f05a7ed0b082ad",
+        "0x338035e5aa2c7ce1320c272c0c782c150a589f686767b483f044c746acd65d85af26b4a475ded3adc46cc1b2283f7b1f79ef877d3fef8f275a36e9c2a7bd23b9",
+        "0x842409950306aebbcc580bbfd044067e6bc2530cb3f426c1eea1c3b1fd48487e6e01d5392e5b5e2bde9145931c4451b22d779d805237d7b23ce934ecc3447065",
+        "0xf9828acc66c3e41ccc00a3683bf5417712a4914f12c1c709eec572483b189feebfcd5e718075e8bd56803243e8a637308c1e535fbe82ef8e6377a45aeeae56c8",
+        "0xccc192ed5565d43671c6c1acaf53fd95b9010abf2ba4263854756d6bcfa4d7d2e1fbd43bc1f63cab2f1c74e3956b6ce0d38ebcd555c8e3085a05037be7670731",
+        "0x567beb3b4827fbd138ee88592791efadb2a1ced4a57bf6f775b5950566169f19d16904f3c4a1f1f758843a5fba9e5052b97afa8f07de443869dee58700f72dc4",
+        "0x67023c6cffb20c1a213f2e038427936adc674c09d54ef1afb1dcfdc8b40a48a80f1ccb51718d3b5bd5d1303e2f365a364d31ce8b6de9f14f18fcde4d43ddfcad",
+        "0x250f3081d864de9796f4f9c505accc293f9ff7822c9d1ac4a5840981f486159121560eff795ae974c83971fb1f27e2984924934e9da43c9eda8423474398cd4f"
+    ],
+    "currentheight": 1590270,
+    "epochduration": 2911,
+    "epochlength": 1000,
+    "gaslimit": 2500000,
+    "gasprice": "400000000000",
+    "lastepochduration": 2757,
+    "lives": 818243,
     "tps": 0,
     "tpsLastEpoch": 0,
-    "lives": 10714,
-    "accountcount": 6,
-    "epochlength": 80,
-    "epochduration": 162,
-    "lastepochduration": 162,
-    "currentcomm": [
-        "0x96dc94580e0eadd78691807f6eac9759b9964daa8b46da4378902b040e0eb102cb48413308d2131e9e5557321f30ba9287794f689854e6d2e63928a082e79286",
-        "0x4ce2edd98452036c804f3f2eeef157672be2ccf647369eb42eb49ab9f428821f9990efde3cf7f16e4c64616c10b673077f4278c6dd2fc6021da8ad0085a522a2"
-    ]
+    "txcount": 2
 }
 ```
 
