@@ -29,7 +29,8 @@ console.log(web3); // {thk: .., shh: ...} // It's here!
 Set a provider (`HttpProvider` using [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)):
 
 ```js
-web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz'));
+let rpcUrl = 'https://rpcproxy.thinkium.vip';     //rpc proxy
+web3.setProvider(new web3.providers.HttpProvider(rpcUrl));
 ```
 
 There you go, now you can use it:
@@ -39,9 +40,9 @@ var account = web3.thk.GetAccount(chainId,address);
 var balance = account.balance;
 ```
 
-You can find more examples in the [`example`](https://github.com/thinkey-dev/web3.js-thk/tree/master/example) directory.
+You can find more examples in the [`example`](https://github.com/thinkium-dev/web3.js-thk/tree/master/example) directory.
 
-# Thinkey Web3.js SDK接口文档
+# TUKE Web3.js SDK接口文档
 
 # 1. 获取账户余额(web3.thk.getAccount)
 
@@ -1000,7 +1001,6 @@ response:
 
 ```javascript
 // myCon对象可以直接调用合约内方法
-URL : test.thinkey.xyz
 var myCon = web3.thk.contract(getcontract["<stdin>:" + cotractName]["info"]["abiDefinition"]).at(contractAddress);
 // 调用方法前手动设置账户
 web3.thk.setCaller("0x0000000000000000000000000000000000000000")

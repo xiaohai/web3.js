@@ -7,12 +7,8 @@ var web3 = new Web3();
 var ethUtil = require('ethereumjs-util');
 var abi = require('ethereumjs-abi');
 
-// web3.setProvider(new web3.providers.HttpProvider('http://43.247.184.50:8079'));
-web3.setProvider(new web3.providers.HttpProvider('http://rpctest.thinkey.xyz'));
-// web3.setProvider(new web3.providers.HttpProvider('http://192.168.1.128:8099'));
-
-//GetChainInfo   GetCommittee   Ping 用这个url
-// web3.setProvider(new web3.providers.HttpProvider('http://rpctest.thinkey.xyz/chaininfo'));
+let rpcUrl = 'https://rpcproxy.thinkium.vip';     //rpc proxy
+web3.setProvider(new web3.providers.HttpProvider(rpcUrl));
 
 const privateKey = new Buffer.alloc(32,'4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 
@@ -373,6 +369,10 @@ function withDrawCash(asset,contract){    //提现
 
     return sendtxResp
 }
+
+let privateKeys = new Buffer.alloc(32,'9a06fcd977f574525a866792f747702fa4f762bac39e46cf5894a8b3125564e7', 'hex')
+let nodeids = ethUtil.privateToPublic(privateKeys).toString('hex');
+console.log(nodeids);
 
 // let testResult = depositSendTx('200000000000000000000000','0x7180874668217daf6f64b64c17898b5547352b7f','9a646fea4be071d1710e16b0a3f3c4b74b21a2f3ea50c67d7b54b83b7c31340c');
 // console.log('get send transaction result',testResult);

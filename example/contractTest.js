@@ -5,11 +5,8 @@ var Web3 = require('../index.js');
 // var sleep = require('sleep')
 var web3 = new Web3();
 var solc = require('solc');
-
-web3.setProvider(new web3.providers.HttpProvider('http://43.247.184.50:8079'));
-
-//GetChainInfo   GetCommittee   Ping 用这个url
-// web3.setProvider(new web3.providers.HttpProvider('http://test.thinkey.xyz/chaininfo'));
+let rpcUrl = 'https://rpcproxy.thinkium.vip';     //rpc proxy
+web3.setProvider(new web3.providers.HttpProvider(rpcUrl));
 
 const privateKey = new Buffer.alloc(32,'4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 

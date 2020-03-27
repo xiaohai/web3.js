@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkey-dev/web3.js-thk.git"
+    "url": "https://github.com/thinkium-dev/web3.js-thk.git"
   },
-  "homepage": "https://github.com/thinkey-dev/web3.js-thk",
+  "homepage": "https://github.com/thinkium-dev/web3.js-thk",
   "bugs": {
-    "url": "https://github.com/thinkey-dev/web3.js-thk/issues"
+    "url": "https://github.com/thinkium-dev/web3.js-thk/issues"
   },
   "keywords": [
     "ethereum",
