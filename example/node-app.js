@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 var Web3 = require('../index.js');
 // var sleep = require('sleep')
 var web3 = new Web3();
@@ -10,7 +9,7 @@ var abi = require('ethereumjs-abi');
 let rpcUrl = 'https://rpcproxy.thinkium.vip';     //rpc proxy
 web3.setProvider(new web3.providers.HttpProvider(rpcUrl));
 
-const privateKey = new Buffer.alloc(32,'4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
+const privateKey = new Buffer.alloc(32, '4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318', 'hex')
 
 web3.thk.defaultPrivateKey = privateKey
 web3.thk.defaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
@@ -19,7 +18,6 @@ web3.thk.defaultChainId = "1"
 function sleep(delay) {   //自定义sleep方法
     var start = (new Date()).getTime();
     while ((new Date()).getTime() - start < delay) {
-      continue;
     }
 }
 
@@ -38,7 +36,7 @@ function RunContract(contractName, contractText) {
         nonce: balance['nonce'].toString(),
         value: "0",
         input: code,
-    }
+    };
     web3.thk.signTransaction(tx, web3.thk.defaultPrivateKey)
     var contracthash = web3.thk.SendTx(tx)
     sleep(5000)
@@ -55,13 +53,11 @@ function RunContract(contractName, contractText) {
  * @description: 获取账户余额， 也可以用来获取nonce
  * @param {String} chainId
  * @param {String} address
- * @return: 
+ * @return:
  */
-function getAccount(chainId, address){
-    let balance = web3.thk.GetAccount(chainId, address);
-    return balance
+function getAccount(chainId, address) {
+    return web3.thk.GetAccount(chainId, address)
 }
-
 
 
 /**
@@ -73,52 +69,46 @@ function getAccount(chainId, address){
  * @param {String} nonce
  * @param {String} privateKey
  * @param {String} inputs
- * @return: 
+ * @return:
  */
-function sendTx(chainId, fromAddress, toAddress, value, nonce, privateKey,inputs){
+function sendTx(chainId, fromAddress, toAddress, value, nonce, privateKey, inputs) {
     let obj = {
         chainId: chainId,
         fromChainId: chainId,
         toChainId: chainId,
-        from:fromAddress,
+        from: fromAddress,
         to: toAddress,
         nonce: nonce,
         value: value.toString(),
         input: inputs,
         useLocal: false,
         extra: ''
-    }
+    };
     //签名参数
-    let sendTxParams = web3.thk.signTransaction(obj,privateKey)
-    var sendtxResp = web3.thk.SendTx(sendTxParams);
-    return sendtxResp
+    let sendTxParams = web3.thk.signTransaction(obj, privateKey)
+    return web3.thk.SendTx(sendTxParams)
 }
-
 
 
 /**
  * @description: 通过交易hash获取交易详情
  * @param {String} chainId
  * @param {String} txHash
- * @return: 
+ * @return:
  */
-function getTxHashRes(chainId,txHash){
-    var getTxByHashResp = web3.thk.GetTransactionByHash(chainId, txHash);
-    return getTxByHashResp
+function getTxHashRes(chainId, txHash) {
+    return web3.thk.GetTransactionByHash(chainId, txHash)
 }
-
 
 
 /**
  * @description: 获取链信息
  * @param {String} chainId
- * @return: 
+ * @return:
  */
-function getStateInfo(chainId){
-    var getStatsResp = web3.thk.GetStats(chainId);
-    return getStatsResp
+function getStateInfo(chainId) {
+    return web3.thk.GetStats(chainId)
 }
-
 
 
 /**
@@ -127,13 +117,11 @@ function getStateInfo(chainId){
  * @param {String} address
  * @param {Number} startHeight
  * @param {Number} endHeight
- * @return: 
+ * @return:
  */
-function getTransactionInfos(chainId, address, startHeight, endHeight){
-    var getTxsInfos = web3.thk.GetTransactions(chainId,address, startHeight, endHeight);
-    return getTxsInfos
+function getTransactionInfos(chainId, address, startHeight, endHeight) {
+    return web3.thk.GetTransactions(chainId, address, startHeight, endHeight)
 }
-
 
 
 /**
@@ -144,111 +132,98 @@ function getTransactionInfos(chainId, address, startHeight, endHeight){
  * @param {String} value
  * @param {String} nonce
  * @param {String} inputs
- * @return: 
+ * @return:
  */
-function getTransferInfo(chainId, fromChainId, toChainId, fromAddress, toAddress, value, nonce, inputs){
+function getTransferInfo(chainId, fromChainId, toChainId, fromAddress, toAddress, value, nonce, inputs) {
     let obj = {
         chainId: chainId,
-        from:fromAddress,
+        from: fromAddress,
         to: toAddress,
         fromChainId: fromChainId,
         toChainId: toChainId,
         nonce: nonce,
         value: value.toString(),
         input: inputs
-    }
-    let transferInfo = web3.thk.CallTransaction(obj)
-    return transferInfo
+    };
+    return web3.thk.CallTransaction(obj)
 }
-
 
 
 /**
  * @description: 获取指定块高信息
- * @param {String} chainId 
+ * @param {String} chainId
  * @param {String} height
- * @return: 
+ * @return:
  */
-function getBlockHeightInfo(chainId, height){
-    var getBlockInfo = web3.thk.GetBlockHeader(chainId,height);
-    return getBlockInfo
+function getBlockHeightInfo(chainId, height) {
+    return web3.thk.GetBlockHeader(chainId, height)
 }
-
 
 
 /**
  * @description: 获取指定块高,指定页码数量信息
- * @param {String} chainId 
+ * @param {String} chainId
  * @param {String} height
  * @param {String} page    页码
  * @param {String} size     页的大小
- * @return: 
+ * @return:
  */
-function getBlockPageInfos(chainId, height, page, size){
-    var getBlockInfo = web3.thk.GetBlockTxs(chainId,height,page,size);
-    return getBlockInfo
+function getBlockPageInfos(chainId, height, page, size) {
+    return web3.thk.GetBlockTxs(chainId, height, page, size)
 }
-
 
 
 /**
  * @description: 编译合约
- * @param {String} chainId 
+ * @param {String} chainId
  * @param {String} contract
- * @return: 
+ * @return:
  */
-function getCompileContract(chainId, contract){
-    var getBlockInfo = web3.thk.CompileContract(chainId,contract);
-    return getBlockInfo
+function getCompileContract(chainId, contract) {
+    return web3.thk.CompileContract(chainId, contract)
 }
-
 
 
 /**
  * @description: 获取链信息
  * @param {Array} chainIds    链Id数组, 空数组为所有
- * @return: 
+ * @return:
  */
-function getChainInfos(chainIds){
-    var getBlockInfo = web3.thk.GetChainInfo(chainIds);
-    return getBlockInfo
+function getChainInfos(chainIds) {
+    return web3.thk.GetChainInfo(chainIds)
 }
-
 
 
 /**
  * @description: 连接指定ip+端口
  * @param {String} url    链Id数组, 空数组为所有
- * @return: 
+ * @return:
  */
-function pingUrl(url){
-    var pingRes = web3.thk.Ping(url);
-    return pingRes
+function pingUrl(url) {
+    return web3.thk.Ping(url)
 }
-
 
 
 /**
  * @description: 获取委员会详情
  * @param {String} chainId
- * @return: 
+ * @return:
  */
-function getCommittee(chainId,epoch){
-    var getcommittee = web3.thk.GetCommittee(chainId,epoch);
-    return getcommittee
+function getCommittee(chainId, epoch) {
+    return web3.thk.GetCommittee(chainId, epoch)
 }
 
-let com_objs = {}
+let com_objs = {};
 
 function Str2Bytes(str) {
     var pos = 0;
     var len = str.length;
-    if(len %2 != 0) {
+    if (len % 2 != 0) {
         return null;
     }
     len /= 2;
-    var hexA = new Array();
-    for(var i=0; i<len; i++) {
+    var hexA = [];
+    for (var i = 0; i < len; i++) {
         var s = str.substr(pos, 2);
         var v = parseInt(s, 16);
         hexA.push(v);
@@ -262,26 +237,26 @@ function Str2Bytes(str) {
  * @param {string} asset   质押金额
  * @param {string} contract   钱包地址绑定合约地址
  * @param {string} nodeidPrivatekey   节点私钥，  去除0x
- * @return: 
+ * @return:
  */
-function depositSendTx(asset,contract, nodeidPrivatekey){    //质押
+function depositSendTx(asset, contract, nodeidPrivatekey) {    //质押
     let balancess = getAccount('2', web3.thk.defaultAddress);
-    let privateKeys = new Buffer.alloc(32,nodeidPrivatekey, 'hex')
+    let privateKeys = new Buffer.alloc(32, nodeidPrivatekey, 'hex')
     let nodeids = ethUtil.privateToPublic(privateKeys)
-    
+
     let obj = {
         bindAddr: contract.toLowerCase(),
         nodeType: 1,
         nonce: balancess.nonce.toString(),
         amount: asset,
         nodeId: nodeids
-    }
+    };
     //签名参数
-    let nodeSig = web3.thk.signTransactionNew(obj,privateKeys)
-    let encoded = abi.simpleEncode("deposit(bytes,uint8,address,uint64,uint256,string):(bytes,uint256,uint256,uint256,uint256,string)", 
-        nodeids, 
-        1, 
-        contract.toLowerCase(), 
+    let nodeSig = web3.thk.signTransactionNew(obj, privateKeys)
+    let encoded = abi.simpleEncode("deposit(bytes,uint8,address,uint64,uint256,string):(bytes,uint256,uint256,uint256,uint256,string)",
+        nodeids,
+        1,
+        contract.toLowerCase(),
         balancess.nonce.toString(),
         asset,
         nodeSig
@@ -290,87 +265,81 @@ function depositSendTx(asset,contract, nodeidPrivatekey){    //质押
         chainId: '2',
         fromChainId: '2',
         toChainId: '2',
-        from:web3.thk.defaultAddress.toLowerCase(),
+        from: web3.thk.defaultAddress.toLowerCase(),
         to: contract.toLowerCase(),
         nonce: balancess.nonce.toString(),
         value: asset,
         input: encoded.toString('hex'),
         useLocal: false,
         extra: ''
-    }
-    
-    //签名参数
-    let TxParams = web3.thk.signTransaction(objs,privateKey)
-    var sendtxResp = web3.thk.SendTx(TxParams);
+    };
 
-    return sendtxResp
+    //签名参数
+    let TxParams = web3.thk.signTransaction(objs, privateKey)
+    return web3.thk.SendTx(TxParams)
 }
- 
+
 /**
- * @description: pos赎回   
+ * @description: pos赎回
  * @param {string} asset   质押金额
  * @param {string} contract   钱包地址绑定合约地址
  * @param {string} nodeidPrivatekey   节点私钥，  去除0x
- * @return: 
+ * @return:
  */
-function withDraw(asset,contract, nodeidPrivatekey){   //赎回
+function withDraw(asset, contract, nodeidPrivatekey) {   //赎回
     let balancess = getAccount('2', web3.thk.defaultAddress);
-    let privateKeys = new Buffer.alloc(32,nodeidPrivatekey, 'hex')
+    let privateKeys = new Buffer.alloc(32, nodeidPrivatekey, 'hex')
     let nodeids = ethUtil.privateToPublic(privateKeys).toString('hex')
-    let encoded = abi.simpleEncode("withdraw(bytes,address):(bytes,uint256)", 
-        nodeids, 
+    let encoded = abi.simpleEncode("withdraw(bytes,address):(bytes,uint256)",
+        nodeids,
         web3.thk.defaultAddress.toLowerCase()
     );
     let objs = {
         chainId: '2',
         fromChainId: '2',
         toChainId: '2',
-        from:web3.thk.defaultAddress.toLowerCase(),
+        from: web3.thk.defaultAddress.toLowerCase(),
         to: contract,
         nonce: balancess.nonce.toString(),
         value: asset,
         input: encoded.toString('hex'),
         useLocal: false,
         extra: ''
-    }
-    
-    //签名参数
-    let TxParams = web3.thk.signTransaction(objs,privateKey)
-    var sendtxResp = web3.thk.SendTx(TxParams);
+    };
 
-    return sendtxResp
+    //签名参数
+    let TxParams = web3.thk.signTransaction(objs, privateKey)
+    return web3.thk.SendTx(TxParams)
 }
 
 /**
- * @description: pos提现领奖  
+ * @description: pos提现领奖
  * @param {string} asset   质押金额
  * @param {string} contract   钱包地址绑定合约地址
- * @return: 
+ * @return:
  */
-function withDrawCash(asset,contract){    //提现
+function withDrawCash(asset, contract) {    //提现
     let balancess = getAccount('2', web3.thk.defaultAddress);
     let encoded = abi.simpleEncode("withdrawCash(uint256):(uint256)", asset);
     let objs = {
         chainId: '2',
         fromChainId: '2',
         toChainId: '2',
-        from:web3.thk.defaultAddress.toLowerCase(),
+        from: web3.thk.defaultAddress.toLowerCase(),
         to: contract.toLowerCase(),
         nonce: balancess.nonce.toString(),
         value: '0',
         input: encoded.toString('hex'),
         useLocal: false,
         extra: ''
-    }
-    
-    //签名参数
-    let TxParams = web3.thk.signTransaction(objs,privateKey)
-    var sendtxResp = web3.thk.SendTx(TxParams);
+    };
 
-    return sendtxResp
+    //签名参数
+    let TxParams = web3.thk.signTransaction(objs, privateKey)
+    return web3.thk.SendTx(TxParams)
 }
 
-let privateKeys = new Buffer.alloc(32,'9a06fcd977f574525a866792f747702fa4f762bac39e46cf5894a8b3125564e7', 'hex')
+let privateKeys = new Buffer.alloc(32, '9a06fcd977f574525a866792f747702fa4f762bac39e46cf5894a8b3125564e7', 'hex')
 let nodeids = ethUtil.privateToPublic(privateKeys).toString('hex');
 console.log(nodeids);
 
@@ -385,7 +354,7 @@ console.log(nodeids);
 // let balancess = getAccount('1', web3.thk.defaultAddress);
 // console.log('get account balance response',balancess);
 
-// 执行一笔交易                                                                
+// 执行一笔交易
 // let sendtxResp = sendTx('1', web3.thk.defaultAddress,'0x1900c8ee3b3a511db4f0297c8df7151ffdb71709', '10000000000000000000000', balancess.nonce.toString(), web3.thk.defaultPrivateKey,'');
 // console.log("get sendtx response:",sendtxResp);
 
@@ -431,7 +400,6 @@ console.log(nodeids);
 //获取委员会详情
 // var getCommitteeResp = getCommittee(web3.thk.defaultChainId,'4');
 // console.log("get committee res:",getCommitteeResp);
-
 
 
 // function getContract(abi){
