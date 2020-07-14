@@ -8,24 +8,16 @@ const SystemContractAddressWithdraw = require('../../lib/utils/cash-cheque').Sys
 const SystemContractAddressCancel = require('../../lib/utils/cash-cheque').SystemContractAddressCancel;
 const encodeCheque = require('../../lib/utils/cash-cheque').encode;
 const decodeCheque = require('../../lib/utils/cash-cheque').decode;
+const sleep = require('../common/my_util').sleep;
+const constants = require('../common/constants');
 const BigNumber = require('bignumber.js');
 
-
-let rpcUrl = 'http://rpctest.thinkium.org';     //rpc proxy
-web3.setProvider(new web3.providers.HttpProvider(rpcUrl));
-
-const privateKey = new Buffer('8e5b44b6cee8fa05092b4b5a8843aa6b0ec37915a940c9b5938e88a7e6fdd83a', 'hex');
-web3.thk.defaultPrivateKey = privateKey;
+web3.setProvider(new web3.providers.HttpProvider(constants._test_rpc_host));
+web3.thk.defaultPrivateKey = constants._test_wallet.privateKey;
 web3.thk.defaultChainId = "1";
-web3.thk.defaultAddress = "0xf167a1c5c5fab6bddca66118216817af3fa86827";
+web3.thk.defaultAddress = constants._test_wallet.address;
 _toChainId = '2';
-_toAddress = '0xf167a1c5c5fab6bddca66118216817af3fa86827';
-
-function sleep(delay) {
-    const start = (new Date()).getTime();
-    while ((new Date()).getTime() - start < delay * 1000) {
-    }
-}
+_toAddress = constants._test_wallet.address;
 
 /* 继续交易或退款流程
     1.  生成取消支票          web3.thk.MakeCCCExistenceProof
@@ -42,6 +34,7 @@ function sleep(delay) {
 */
 
 describe('refund', function () {
+    this.timeout(100000);
     it('cancel', done => {
         let value = new BigNumber(`20`).multipliedBy('1e+18');
 
@@ -146,7 +139,7 @@ describe('refund', function () {
                 }
             }
         }
-        setTimeout(done, 1000);
+        done()
     });
 });
 
