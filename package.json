@@ -1,5 +1,5 @@
 {
-  "name": "web3.js-thk",
+  "name": "thinkium-web3js",
   "version": "1.0.3",
   "description": "Ethereum JavaScript API, middleware to talk to a ethereum node over RPC",
   "main": "./index.js",
@@ -57,11 +57,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkium-dev/web3.js-thk.git"
+    "url": "https://github.com/Thinkium-Blockchain/web3.js.git"
   },
-  "homepage": "https://github.com/thinkium-dev/web3.js-thk",
+  "homepage": "https://github.com/Thinkium-Blockchain/web3.js",
   "bugs": {
-    "url": "https://github.com/thinkium-dev/web3.js-thk/issues"
+    "url": "https://github.com/Thinkium-Blockchain/web3.js/issues"
   },
   "keywords": [
     "ethereum",

@@ -3,13 +3,13 @@
 ### npm
 
 ```bash
-npm install web3.js-thk
+npm install thinkium-web3js
 ```
 
 ### Yarn
 
 ```bash
-yarn add web3.js-thk
+yarn add thinkium-web3js
 ```
 
 ### As a Browser module
@@ -21,7 +21,7 @@ yarn add web3.js-thk
 Use the `web3` object directly from the global namespace:
 
 ```js
-var Web3 = require('web3.js-thk');
+var Web3 = require('thinkium-web3js');
 var web3 = new Web3();
 console.log(web3); // {thk: .., shh: ...} // It's here!
 ```
@@ -40,7 +40,7 @@ var account = web3.thk.GetAccount(chainId,address);
 var balance = account.balance;
 ```
 
-You can find more examples in the [`example`](https://github.com/thinkium-dev/web3.js-thk/tree/master/example) directory.
+You can find more examples in the [`example`](https://github.com/Thinkium-Blockchain/web3.js/tree/master/example) directory.
 
 # TUKE Web3.js SDK接口文档
 
@@ -546,7 +546,7 @@ response:
 
 # 9. 编译合约(solc.compile)
 
-**Web3.js-thk项目example目录contractTest.js 文件有示例**
+**thinkium-web3js项目example目录contractTest.js 文件有示例**
 
 请求参数
 
@@ -613,7 +613,7 @@ var contractByteCode = contractObj_MyFirst.evm.bytecode.object.slice(0,2) === '0
 
 # 调用合约方法 (web3.thk.contract(abis,contractAddress).at(contractAddress))
 
-**Web3.js-thk项目example目录contractTest.js 文件有示例**
+**thinkium-web3js项目example目录contractTest.js 文件有示例**
 
 请求参数
 
