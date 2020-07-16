@@ -1,6 +1,6 @@
 {
   "name": "thinkium-web3js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Ethereum JavaScript API, middleware to talk to a ethereum node over RPC",
   "main": "./index.js",
   "directories": {
