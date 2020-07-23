@@ -15,9 +15,9 @@ const BigNumber = require('bignumber.js');
 
 web3.setProvider(new web3.providers.HttpProvider(constants._test_rpc_host));
 web3.thk.defaultPrivateKey = constants._test_wallet.privateKey;
-web3.thk.defaultChainId = "1";
+web3.thk.defaultChainId = "103";
 web3.thk.defaultAddress = constants._test_wallet.address;
-_toChainId = '2';
+_toChainId = "1";
 _toAddress = constants._test_wallet.address;
 
 let expireAfter = 200;
@@ -42,7 +42,7 @@ describe('cash cheque', function () {
     this.timeout(100000);
     it('test cash cheque', function (done) {
         expireAfter = 200;
-        let value = new BigNumber(`20`).multipliedBy('1e+18');
+        let value = new BigNumber(`1`).multipliedBy('1e+18');
 
         let fromAccountAtFromChain = web3.thk.GetAccount(web3.thk.defaultChainId, web3.thk.defaultAddress);
         console.log("fromAccountAtFromChain :", fromAccountAtFromChain);
